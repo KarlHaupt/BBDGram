@@ -1,12 +1,15 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
-//import indexController from './controllers/index.routes';
 import authController from './controllers/auth.routes';
 //import apiController from './controllers/api.routes';
 import path from 'path';
 import bodyParser from 'body-parser';
+
 dotenv.config();
 import './config/passport';
+import { connectDatabase } from './config/connectDatabase';
+import { mediaRouter } from './routes/mediaPost';
+import { errorMiddleware } from './middleware/catchError';
 
 
 const app: Express = express();
@@ -24,6 +27,9 @@ app.use(
 );
 app.use(passport.session());
 
+//Connecting to database
+connectDatabase();
+
 
 app.use(bodyParser.json());
 
@@ -33,10 +39,11 @@ app.use(bodyParser.json());
 
 
 // CONTROLLERS
-//app.use(indexController);
+app.use(mediaRouter);
 app.use(authController);
 //app.use(apiController);
 
+app.use(errorMiddleware);
 
 const port = process.env.PORT;
 
