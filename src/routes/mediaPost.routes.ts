@@ -1,5 +1,7 @@
+import { getMediaPosts } from "../controllers/mediaPostController";
+
 const express = require('express');
 export const mediaRouter = express.Router();
 
-// router.post('/media/posts', getAllMediaPosts);
+mediaRouter.get('/media/posts', getMediaPosts);
 
