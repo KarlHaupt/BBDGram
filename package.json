@@ -1,0 +1,22 @@
+{
+  "name": "bbdgram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "front-install": "npm install && npm install --prefix ./frontend && node config.js",
+    "front-start": "npm run build --prefix ./frontend/src && npm run start --prefix ./frontend/src",
+    "server-install": "npm install && npm install --prefix ./backend/src &&  npx tsc --build",
+    "server-start": "node backend/src/dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hsien-Heng-Lie/BBDGram.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
