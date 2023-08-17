@@ -7,8 +7,7 @@ const mediaSchema = new mongoose.Schema({
     },
     image: {
         data: Buffer,
-        contentType: String,
-        required: [true, 'Please add an image'],
+        contentType: String
     },
     tags: {
         type: String,
@@ -24,7 +23,7 @@ const mediaSchema = new mongoose.Schema({
         }
     },
     user: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     }

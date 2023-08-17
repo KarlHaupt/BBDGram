@@ -1,6 +1,5 @@
 //node imports
 import express, { Express } from 'express';
-import path from 'path';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 dotenv.config();
