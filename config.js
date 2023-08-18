@@ -11,7 +11,8 @@ function writeConfig(){
     fs.writeFileSync(path, JSON.stringify(m));
   } else {
     const param = JSON.stringify({
-      API_Base_Url:process.env.API_Base_Url
+      API_Base_Url:process.env.API_Base_Url,
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
     });
     fs.writeFile(path, param, function (err) {
       if (err) throw err;
