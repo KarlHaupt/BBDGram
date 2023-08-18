@@ -1,21 +1,30 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React from 'react';
+import logo from './logo.svg';
 import './App.css';
-import Home from './pages/Home';
-import Header from "./components/Header";
+import  LoginButton  from './components/login';
+import LogoutButton from './components/logout';
+import { gapi } from 'gapi-script';
+import { useEffect } from 'react';
+
+const client_id = '918905675795-8v17u3i912kgqq765k2gk760kc49feba.apps.googleusercontent.com'
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          {/* Entry Point to the App */}
-          {/* Normally the navigation goes here, I can handle if you guys need me to */}
-            <Route path = "/" Component={Home} />
-            <Route path = "/header" Component={Header} />
-        </Routes>
-      </div>
-    </Router>
 
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: client_id,
+        scope:''
+      })
+    };
+    gapi.load('client:auth2', start);
+  } );
+
+  return (
+    <div className="App">
+      <LoginButton/>
+      <LogoutButton/>
+    </div>
   );
 }
 
