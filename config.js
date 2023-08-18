@@ -1,16 +1,17 @@
 fs = require('fs');
 require("dotenv").config();
 
-const path = './frontend/src/config.json';
+const path = './frontend/src/src/config.json';
 
 function writeConfig(){
   if (fs.existsSync(path)) {
     const m = JSON.parse(fs.readFileSync(path));
-    m.Identity_Server_Base_Url = process.env.API_Base_Url;
+    m.API_Base_Url = process.env.API_Base_Url;
+    m.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
     fs.writeFileSync(path, JSON.stringify(m));
   } else {
     const param = JSON.stringify({
-      Identity_Server_Base_Url:process.env.API_Base_Url
+      API_Base_Url:process.env.API_Base_Url
     });
     fs.writeFile(path, param, function (err) {
       if (err) throw err;

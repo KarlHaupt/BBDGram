@@ -12,18 +12,17 @@ function App() {
 
   useEffect(() => {
     function start() {
-      gapi.client.init({
+      gapi.auth2.init({
         clientId: client_id,
         scope:''
       })
     };
-    gapi.load('client:auth2', start);
+    gapi.load('auth2', start);
   } );
 
   return (
     <div className="App">
       <LoginButton/>
-      <LogoutButton/>
     </div>
   );
 }

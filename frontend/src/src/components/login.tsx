@@ -1,35 +1,30 @@
-import { GoogleLogin,GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login'
+import { GoogleLogin, CredentialResponse, GoogleOAuthProvider} from '@react-oauth/google';
+import jwt from 'jwt-decode';
+import config from '../config.json';
 
-const client_id = '918905675795-8v17u3i912kgqq765k2gk760kc49feba.apps.googleusercontent.com'
+const client_id: string = config.GOOGLE_CLIENT_ID;
 
 function Login() {
 
-  const onSuccess = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+  const onSuccess = (response:  CredentialResponse) => {
 
-  let result: any = null;
-  let token:any = null;
-  if ("profileObj" in response) { result = response.profileObj; }
-  if ("tokenId" in response) { token = response.tokenId; }
+  const responsePayload = jwt(response.credential + '');
     console.log('Login SUccessful!');
-    console.log('profile', result);
-    console.log('token',token);
+    console.log('payload', responsePayload);
   }
 
-  const onFailure = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
-    console.log(response);
+  const onFailure = () => {
+    console.log('login failed');
   }
-
 
   return (
     <div>
-      <GoogleLogin
-        clientId= {client_id}
-        buttonText='Login'
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy='single_host_origin'
-        isSignedIn={true}
-      />
+      <GoogleOAuthProvider clientId={client_id}>
+        <GoogleLogin
+          onSuccess={onSuccess}
+          onError={onFailure}
+        />
+      </GoogleOAuthProvider>;
     </div>
   )
 }
