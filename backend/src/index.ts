@@ -12,16 +12,10 @@ import apiRouter from './routes/api.routes';
 
 const app: Express = express();
 
-
 //Connecting to database
 connectDatabase();
 
 app.use(bodyParser.json());
-
-// VIEWS
-//app.use(express.static(path.join(__dirname, "..", "client", "markup")));
-
-
 
 // CONTROLLERS
 app.use(mediaRouter);
