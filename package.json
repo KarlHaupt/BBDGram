@@ -6,8 +6,8 @@
   "scripts": {
     "front-install": "npm install && npm install --prefix ./frontend/src && node config.js",
     "front-start": "npm run build --prefix ./frontend/src && npm run start --prefix ./frontend/src",
-    "server-install": "npm install && npm install --prefix ./backend/src &&  npx tsc --build",
-    "server-start": "node backend/src/dist/index.js"
+    "server-install": "npm install && npm install --prefix ./backend/src",
+    "server-start": "npx tsc --build && node backend/src/dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "typescript": "^5.1.6"
   }
 }
