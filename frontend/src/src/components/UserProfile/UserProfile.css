@@ -18,7 +18,7 @@
   }
   
   .profile-details {
-    margin-left: 15px; /* Adjust margin as needed */
+    margin-left: 15px; 
   }
   
   .username {
@@ -51,4 +51,42 @@
   
   .buttons:hover {
     background-color: grey;
+  }
+
+
+/* posts section*/
+
+.user-posts {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20px;
+    justify-content: flex-start;
+    margin-top: 20px; /* Adjust the margin as needed */
+  }
+  
+  .post {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 1px;
+    width: 30%; /* Adjust the width as needed */
+    height: 300px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .post-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .post-details {
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .post-caption {
+    font-weight: bold;
+    margin: 5px 0;
   }
