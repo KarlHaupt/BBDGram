@@ -1,6 +1,6 @@
 import { GoogleLogin, CredentialResponse, GoogleOAuthProvider} from '@react-oauth/google';
 import jwt from 'jwt-decode';
-import config from '../config.json';
+import config from '../../config.json';
 
 const client_id: string = config.GOOGLE_CLIENT_ID;
 
