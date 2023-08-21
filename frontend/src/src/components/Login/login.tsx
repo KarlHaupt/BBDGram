@@ -9,9 +9,7 @@ function Login() {
   const onSuccess = (response:  CredentialResponse) => {
 
   const responsePayload = jwt(response.credential + '');
-    console.log(response);
-    console.log('Login SUccessful!');
-    console.log('payload', responsePayload);
+    localStorage.setItem('token', response.credential + '');
   }
 
   const onFailure = () => {
