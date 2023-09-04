@@ -3,6 +3,7 @@ import { getMediaPosts, postMedia } from "../controllers/mediaPostController";
 import { Router } from "express";
 
 export const mediaRouter = Router();
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads");

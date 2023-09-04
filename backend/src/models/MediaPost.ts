@@ -2,8 +2,11 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IMedia {
   description: string;
-  image: Buffer;
-  tags: string[];
+  image: {
+    data: Buffer,
+    contentType: string
+  };
+  tag: string;
   user: Schema.Types.ObjectId;
 }
 
@@ -16,7 +19,7 @@ const mediaSchema: Schema = new Schema({
     data: Buffer,
     contentType: String,
   },
-  tags: {
+  tag: {
     type: String,
     required: [true, "Please select tag(s) for this Post"],
     enum: {
