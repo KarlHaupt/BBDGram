@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Header/Header';
 import '../UserProfile/UserProfile.css';
-import { Posts } from '../../models/posts';
+import { Posts, Post } from '../../models/posts';
+import { ApiResponse } from '../../providers/userProvider';
+import config from '../../config.json'
+import { Buffer } from 'buffer';
 
 
 const UserProfile = () => {
   const [description, setDescription] = useState("Bio description goes here. Something about me.");
-  const [userPosts, setUserPosts] = useState<Posts[]>([]);
+  const [user, setUser] = useState("username");
+  const [userPosts, setUserPosts] = useState<Posts[]>([])
+  const [nuserPosts, nsetUserPosts] = useState<Post[]>([])
+  const [image, setImage] = useState('')
+  const [caption, setCaption] = useState("caption");
+
   const [selectedPost, setSelectedPost] = useState<Posts | null>(null); // State to track selected post for modal
 
   const handleEditDescription = () => {
@@ -19,35 +27,41 @@ const UserProfile = () => {
   const handlePostClick = (post: Posts) => {
     setSelectedPost(post);
   };
+  useEffect(()=>{
+    getData();
+  },[])
+  const getData=async ()=>{
+    const url = `${config.API_Base_Url}/media/posts`;
+    const mediaPosts = new ApiResponse();
+    const imagesArray: Posts[] = [];
 
-  useEffect(() => {
-    // Simulated with sample data (would retrieve from an endpoint)
-    const samplePosts: Posts[] = [
-      {
-        id: 1,
-        imageUrl: 'post-image1.jpeg',
-        likes: 15,
-        dislikes: 2,
-        caption: 'A beautiful sunset.',
-      },
-      {
-        id: 2,
-        imageUrl: 'post-image2.jpg',
-        likes: 20,
-        dislikes: 3,
-        caption: 'Exploring the mountains.',
-      },
-      {
-        id: 3,
-        imageUrl: 'post-image3.jpg',
-        likes: 20,
-        dislikes: 3,
-        caption: 'Exploring the mountains.',
+    mediaPosts.getData(url).then((response: any)=>{
+      
+      if(response.success === true){
+        const data = response.mediaPosts;
+        nsetUserPosts(data)
+        console.log(data)
+        
+        for (const dt of data){
+          setDescription(dt.description);
+          setUser(dt.user)
+        }
+      
       }
-    ];
+      
+    })
     
-    setUserPosts(samplePosts);
-  }, []);
+  }
+
+  useEffect(()=>{
+    const url = `${config.API_Base_Url}/media/posts`;
+    const mediaPosts = new ApiResponse();
+
+    mediaPosts.postData(url,{
+
+    })
+  })
+
 
   return (
     <div>
@@ -55,11 +69,11 @@ const UserProfile = () => {
     <div className="user-profile">
       <div className="profile-header">
         <img
-          src={require('../../images/sample-profile.jpg')} //fetched from endpoint 
+          src={image}
           alt="Profile"
           className="profile-picture"/>
           <div className="profile-details">
-              <h2 className='username'>John Doe</h2> {/* fetched from endpoint */}
+              <h2 className='username'>{user}</h2> {/* fetched from endpoint */}
               <p className='description'>{description}</p> {/* fetched from endpoint */}
                 <div className='settings'>
                       <button className='buttons' onClick={handleEditDescription}>Edit Description</button>
@@ -70,13 +84,13 @@ const UserProfile = () => {
     </div>
 
       <div className="user-posts">
-        {userPosts.map((post) => (
-          <div key={post.id} className="post">
+        {nuserPosts.map((post) => (
+          <div key={post._id} className="post">
             <img
-              src={post.imageUrl}
-              alt={`Post ${post.id}`}
+              src={`data:image/png;base64,${Buffer.from(post.image.data.data).toString('base64')}`}
+              alt={`Post ${post._id}`}
               className="post-image"
-              onClick={() => handlePostClick(post)} // Open modal on image click
+              // onClick={() => handlePostClick(post)} // Open modal on image click
             />
           </div>
         ))}

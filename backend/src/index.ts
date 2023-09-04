@@ -11,11 +11,13 @@ import { mediaRouter } from './routes/mediaPost.routes';
 import apiRouter from './routes/api.routes';
 
 const app: Express = express();
+const cors = require('cors');
 
 //Connecting to database
 connectDatabase();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 // CONTROLLERS
 app.use(mediaRouter);
