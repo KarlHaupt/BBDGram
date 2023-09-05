@@ -1,18 +1,21 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema } from "mongoose";
 
-const userSchema = new mongoose.Schema({
+export interface IUser {
+    username: string,
+    email: string
+}
+
+const userSchema: Schema = new Schema({
     username: {
         type: String,
         required: [true, 'Please enter your name'],
-        maxLength: [30, 'Your name cannot exceed 30 characters']
+        maxLength: [255, 'Your name cannot exceed 30 characters']
     },
-    password: {
+    email: {
         type: String,
-        required: [true, 'Please enter your password'],
-        minlength: [6, 'Your password must be at least 6 characters'],
-        select: false //Dont display password
+        required: [true, 'Please enter your email'],
     },
 
 });
 
-export default mongoose.model('User', userSchema );
+export default mongoose.model<IUser>("User", userSchema);
