@@ -1,5 +1,6 @@
 import { GoogleLogin, CredentialResponse, GoogleOAuthProvider} from '@react-oauth/google';
 import jwt from 'jwt-decode';
+import './login.css'
 import config from '../../config.json';
 import { ApiResponse } from '../../providers/userProvider';
 
@@ -42,14 +43,27 @@ function Login() {
   }
 
   return (
-    <div>
-      <GoogleOAuthProvider clientId={client_id}>
-        <GoogleLogin
-          onSuccess={onSuccess}
-          onError={onFailure}
-        />
-      </GoogleOAuthProvider>;
-    </div>
+    <section>
+      <header>
+        <img alt="bbd-gram-logo" src={process.env.PUBLIC_URL + '/bbdgram512.png'}/>
+        <h1>
+          BBDGRAM
+        </h1>
+      </header>
+      <main>
+        <section>
+        <h3>Login</h3>
+        <GoogleOAuthProvider clientId={client_id}>
+          <GoogleLogin
+            onSuccess={onSuccess}
+            onError={onFailure}
+          />
+        </GoogleOAuthProvider>
+
+        </section>
+
+      </main>
+    </section>    
   )
 }
 
