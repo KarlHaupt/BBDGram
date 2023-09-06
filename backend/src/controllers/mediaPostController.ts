@@ -82,6 +82,8 @@ export const postMedia = async (
       image: final_img,
       tag: req.body.tag,
       user: req.body.user,
+      dislikes: [],
+      likes: []
     };
 
     MediaPost.create(mediaObj).then((value) => {

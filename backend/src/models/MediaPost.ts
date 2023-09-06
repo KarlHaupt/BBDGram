@@ -8,6 +8,8 @@ export interface IMedia {
   };
   tag: string;
   user: Schema.Types.ObjectId;
+  dislikes: mongoose.Schema.Types.ObjectId[];
+  likes: mongoose.Schema.Types.ObjectId[];
 }
 
 const mediaSchema: Schema = new Schema({
