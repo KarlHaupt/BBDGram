@@ -93,9 +93,50 @@ export const postMedia = async (
   }
 };
 
-// export const upvoteMediaPost = async (
-//   req: Request,
-//   res: Response
-// ) => {
-//   const 
-// }
+export const likeMediaPost = async (
+  req: Request,
+  res: Response
+) => {
+  const response = await MediaPost.updateOne(
+    { _id: req.body.postId },
+    { $addToSet: { likes: [req.body.userId] },
+      $pullAll: { dislikes: [req.body.userId] } }
+  )
+
+  if (response.acknowledged) {
+    res.status(200).json({
+      success: true,
+      message: "Successfully liked"
+    });
+  } else {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      response
+    })
+  }
+}
+
+export const dislikeMediaPost = async (
+  req: Request,
+  res: Response
+) => {
+  const response = await MediaPost.updateOne(
+    { _id: req.body.postId },
+    { $addToSet: { dislikes: [req.body.userId] },
+      $pullAll: { likes: [req.body.userId] } }
+  )
+
+  if (response.acknowledged) {
+    res.status(200).json({
+      success: true,
+      message: "Successfully disliked"
+    });
+  } else {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      response
+    })
+  }
+}
