@@ -17,6 +17,35 @@ export const getMediaPosts = async (
   });
 };
 
+export const getMediaPostsByUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.query.userId;
+
+  if (!userId) {
+    return res.status(400).json({
+      success: false,
+      message: 'User ID is required.',
+    });
+  }
+
+  try {
+    const mediaPosts = await MediaPost.find({ user: userId });
+
+    res.status(200).json({
+      success: true,
+      mediaPosts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while fetching media posts.',
+    });
+  }
+};
+
 export const postMedia = async (
   req: Request,
   res: Response
