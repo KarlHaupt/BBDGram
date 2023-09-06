@@ -18,7 +18,6 @@ apiRouter.put("/api/user", async (req: Request, res: Response) => {
     { username: req.body.username }
   )
 
-  console.log(response);
   if (response.acknowledged) {
     res.status(200).json({
       success: true,
@@ -27,7 +26,8 @@ apiRouter.put("/api/user", async (req: Request, res: Response) => {
   } else {
     res.status(500).json({
       success: false,
-      message: "Something went wrong"
+      message: "Something went wrong",
+      response
     })
   }
   
