@@ -12,7 +12,8 @@ function Login() {
     const responsePayload: any = jwt(response.credential + '');
     localStorage.setItem('token', response.credential + '');
     await saveUser({ username: responsePayload.name, email: responsePayload.email })
-    window.location.href = "http://localhost:3000/home"
+    // window.location.href = "http://localhost:3000/home"
+    window.location.href = "https://main.ddhyb4p9wz5gw.amplifyapp.com/home"
   } 
 
   const saveUser = async (data: { username: string, email: string}) => {
