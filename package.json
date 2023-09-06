@@ -6,8 +6,8 @@
   "scripts": {
     "front-install": "npm install && npm install --prefix ./frontend/src && node config.js",
     "front-start": "npm run build --prefix ./frontend/src && npm run start --prefix ./frontend/src",
-    "server-install": "npm install && npm install --prefix ./backend/src",
-    "server-start": "npx tsc --build && node backend/src/dist/index.js"
+    "server-install": "cd backend/src && npm install && mkdir uploads",
+    "server-start": "cd backend/src && npm run start"
   },
   "repository": {
     "type": "git",

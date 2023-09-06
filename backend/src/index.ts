@@ -8,6 +8,7 @@ dotenv.config();
 import { connectDatabase } from './config/connectDatabase';
 import { errorMiddleware } from './middleware/catchError';
 import { mediaRouter } from './routes/mediaPost.routes';
+import { userRouter } from './routes/user.routes';
 import apiRouter from './routes/api.routes';
 
 const app: Express = express();
@@ -21,6 +22,7 @@ app.use(cors());
 
 // CONTROLLERS
 app.use(mediaRouter);
+app.use(userRouter);
 app.use(apiRouter);
 
 app.use(errorMiddleware);
