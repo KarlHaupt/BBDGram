@@ -1,27 +1,93 @@
-.header-nav {
-    background-color: #333;
-    padding: 10px 0;
-    color: #fff;
-  }
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap');
+html {
+  font-size: 16px; /* 1rem = 16px */
+}
+
+header{
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+  background-color: #aaaaaa;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 900;
+  padding: 0 1rem ;
+}
+
+.heading{
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+}
+
+.heading h1 {  
+  margin-left: 0.5rem;
+  font-size: 1.7rem;
+  width: 9rem;
+
+}
+
+.heading img {
+  margin-top: 0.5rem;
+  height: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.nav-list {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 1rem;  
+  border: solid #d2d1d3;
+  transition: all 0.5s;  
+  width: 6rem;
+  height: 3rem;
+}
+
+.nav-link {
+  padding: 0;
+  text-decoration: none;
+  color: #333;
   
-  .nav-list {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    padding: 0;
-    margin: 0;
-  }
+  padding: 0.625rem;
+  font-size: 1.2rem;
   
-  .nav-item {
-    margin: 0;
-  }
+  transition: all 0.5s;  
   
-  .nav-link {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-  }
   
-  .nav-link:hover {
-    color: #ff9900;
+}
+.nav-link:hover{
+  color: rgb(253, 61, 61);
+}
+
+.nav-item:hover{
+  transform: scale(1.2);
+  background: linear-gradient(to bottom, #e8edec, #d2d1d3);  
+  box-shadow: 0rem 0.188rem 1.25rem 0rem black;    
+}
+
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
   }
+}
+@media (max-width: 480px) {
+  html {
+    font-size: 12px; 
+  }
+}
+@media (max-width: 350px) {
+  html {
+    font-size: 10px; 
+  }
+}
