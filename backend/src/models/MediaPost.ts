@@ -37,6 +37,12 @@ const mediaSchema: Schema = new Schema({
     ref: "User",
     required: true,
   },
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+  },
+  dislikes: {
+    type: [mongoose.Schema.Types.ObjectId],
+  }
 });
 
 export default mongoose.model<IMedia>("MediaPost", mediaSchema);

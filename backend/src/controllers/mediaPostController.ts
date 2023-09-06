@@ -92,3 +92,10 @@ export const postMedia = async (
     });
   }
 };
+
+// export const upvoteMediaPost = async (
+//   req: Request,
+//   res: Response
+// ) => {
+//   const 
+// }
