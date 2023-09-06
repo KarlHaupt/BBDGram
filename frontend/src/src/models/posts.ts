@@ -5,7 +5,7 @@ export interface Posts {
     dislikes: number,
     caption: string,
 }
-
+/*
 export interface Post {
     _id: string,
     image: {
@@ -19,4 +19,22 @@ export interface Post {
     user: string,
     _v: number
 }
+*/
+
+export interface Post {
+    _id: string;
+    image: {
+      contentType: string;
+      data: {
+        type: string;
+        data: number[];
+      };
+    };
+    likes: number;
+    dislikes: number;
+    caption: string;
+    tag: string;
+    user: string;
+    _v: number;
+  }
 
