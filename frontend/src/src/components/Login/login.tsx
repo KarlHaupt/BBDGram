@@ -18,7 +18,7 @@ function Login() {
   } 
 
   const saveUser = async (data: { username: string, email: string}) => {
-    const url = `${config.API_Base_Url}/user/save`;
+    const url = `${process.env.API_Base_Url}/user/save`;
     const user = new ApiResponse();
 
     const userObj = {
