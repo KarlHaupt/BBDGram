@@ -4,7 +4,7 @@ import './login.css'
 import config from '../../config.json';
 import { ApiResponse } from '../../providers/userProvider';
 
-const client_id: string = config.GOOGLE_CLIENT_ID;
+const client_id: string = '918905675795-8v17u3i912kgqq765k2gk760kc49feba.apps.googleusercontent.com';
 
 function Login() {
 
@@ -18,7 +18,7 @@ function Login() {
   } 
 
   const saveUser = async (data: { username: string, email: string}) => {
-    const url = `${config.API_Base_Url}/user/save`;
+    const url = `${process.env.API_Base_Url}/user/save`;
     const user = new ApiResponse();
 
     const userObj = {
