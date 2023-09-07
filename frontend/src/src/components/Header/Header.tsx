@@ -12,7 +12,7 @@ const Header: React.FC = () => {
       <nav>           
         <ul className="nav-list">
           <li className="nav-item">
-            <Link to="/" className="nav-link">BBDGram</Link>
+            <Link to="/home" className="nav-link">BBDGram</Link>
           </li>
           <li className="nav-item">
             <Link to="/profile" className="nav-link">Profile</Link>
