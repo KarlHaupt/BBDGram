@@ -8,6 +8,7 @@ const client_id: string ='639134156863-t757kboucq6bvm8pp6sivl59tth2qm73.apps.goo
 function Login() {
 
   const onSuccess = async (response:  CredentialResponse) => {
+
     try {
       const responsePayload: any = jwt(response.credential + '');
       localStorage.setItem('token', response.credential + '');
@@ -29,6 +30,7 @@ function Login() {
       username: data.username,
       email: data.email
     }
+
 
       user.saveUser(url, userObj).then((response: any)=>{
         console.log(response);

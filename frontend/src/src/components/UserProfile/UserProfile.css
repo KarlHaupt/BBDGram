@@ -175,3 +175,8 @@
   .modal-close:hover {
     background-color: #313131;
   }
+
+  .popup-content{
+    background-color: yellow;
+    margin: 5px;
+  }
