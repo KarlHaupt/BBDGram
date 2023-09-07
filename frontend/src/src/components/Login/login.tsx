@@ -4,7 +4,7 @@ import './login.css'
 import config from '../../config.json';
 import { ApiResponse } from '../../providers/userProvider';
 
-const client_id: string = process.env.GOOGLE_CLIENT_ID ?? '';
+const client_id: string = config.GOOGLE_CLIENT_ID;
 
 function Login() {
 
