@@ -8,15 +8,20 @@ const client_id: string = '639134156863-t757kboucq6bvm8pp6sivl59tth2qm73.apps.go
 function Login() {
 
   const onSuccess = async (response:  CredentialResponse) => {
-
-    const responsePayload: any = jwt(response.credential + '');
-    localStorage.setItem('token', response.credential + '');
-    await saveUser({ username: responsePayload.name, email: responsePayload.email })
-    // window.location.href = "http://localhost:3000/home"
-    window.location.href = "https://main.dv8k953i2sr0b.amplifyapp.com/home"
+    try {
+      const responsePayload: any = jwt(response.credential + '');
+      localStorage.setItem('token', response.credential + '');
+      await saveUser({ username: responsePayload.name, email: responsePayload.email });
+      // window.location.href = "http://localhost:3000/home"
+      window.location.href = "https://main.dv8k953i2sr0b.amplifyapp.com/home";
+    } catch(err) {
+      console.log(err);
+    }
   } 
 
   const saveUser = async (data: { username: string, email: string}) => {
+    try {
+
     const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/user/save`;
     const user = new ApiResponse();
 
@@ -25,16 +30,19 @@ function Login() {
       email: data.email
     }
 
-    user.saveUser(url, userObj).then((response: any)=>{
-      
-      if(response.success === true){
-        const data = response.user;
-        console.log(data)
-        localStorage.setItem('username', response.username);
-        localStorage.setItem('email', response.email);
-      }
-      
-    })
+      user.saveUser(url, userObj).then((response: any)=>{
+        
+        if(response.success === true){
+          const data = response.user;
+          console.log(data)
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('email', response.email);
+        }
+        
+      })
+    } catch(err: any) {
+      console.log('ERROR: ' + err)
+    }
   }
 
 
