@@ -31,15 +31,18 @@ function Login() {
     }
 
       user.saveUser(url, userObj).then((response: any)=>{
-        
+        console.log(response);
         if(response.success === true){
           const data = response.user;
           console.log(data)
-          localStorage.setItem('username', response.username);
-          localStorage.setItem('email', response.email);
+          localStorage.setItem('username', data.username);
+          localStorage.setItem('email', data.email);
         }
         
+      }).catch((err: any) => {
+        console.log('ERROR:::: ', err);
       })
+
     } catch(err: any) {
       console.log('ERROR: ' + err)
     }
