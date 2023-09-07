@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import '../UserProfile/UserProfile.css';
 import { ApiResponse } from '../../providers/userProvider';
 import { Buffer } from 'buffer';
+import Popup from 'reactjs-popup'
 import { Post } from '../../models/posts';
 import PicturePopup from '../PicturePopup/PicturePopup';
 
@@ -12,7 +13,8 @@ const UserProfile = () => {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [image, setImage] = useState('');
   const [caption, setCaption] = useState("caption");
-
+  const [selectedImage, setSelectedImage] = useState<File>()
+  const [newDescription, setNewDescription] = useState('')
   const [selectedPost, setSelectedPost] = useState<Post | null>(null); // State to track selected post for modal
 
   const handleEditDescription = () => {
@@ -21,6 +23,66 @@ const UserProfile = () => {
       setDescription(newDescription);
     }
   };
+
+  const handleNewDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDescription = e.target.value;
+    if (newDescription) {
+      setNewDescription(newDescription);
+    }
+  }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log(file)
+
+      setSelectedImage(file);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+
+  }, [])
+
+  const getData = async () => {
+    const url = `http://localhost:8000/media/posts`;
+    const mediaPosts = new ApiResponse();
+
+    mediaPosts.getData(url).then((response: any) => {
+
+      if (response.success === true) {
+        const data = response.mediaPosts;
+        setUserPosts(data)
+        console.log(data)
+
+        for (const dt of data) {
+          setDescription(dt.description);
+          setUser(dt.user)
+          localStorage.setItem('user', dt.user);
+          localStorage.setItem('tag', dt.tag);
+        }
+      }
+    })
+  }
+
+  const newPost = () => {
+    const url = `http://localhost:8000/media/posts`;
+    const mediaPosts = new ApiResponse();
+
+    const email = localStorage.getItem('user');
+    const tag = localStorage.getItem('tag');
+
+    const formData = new FormData();
+    formData.append('image', selectedImage as Blob);
+    formData.append('user', email!);
+    formData.append('tag', tag!);
+    formData.append('description', newDescription);
+
+    const res = mediaPosts.postData(url, formData)
+    console.log(res)
+
+  }
 
   const handlePostClick = (post: Post) => {
     setSelectedPost(post);
@@ -53,7 +115,7 @@ const UserProfile = () => {
       const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
       const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
-      const url = `${process.env.API_Base_Url}/media/posts/like`;
+      const url = `http://localhost:8000/media/posts/like`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -193,7 +255,13 @@ const UserProfile = () => {
             <p className='description'>{description}</p> {/* fetched from endpoint */}
             <div className='settings'>
               <button className='buttons' onClick={handleEditDescription}>Edit Description</button>
-              <button className='buttons'>New Post</button>
+              <Popup trigger=
+                {<button className='buttons'>New Post</button>}
+                position="right center">
+                <input type='text' placeholder='description' value={newDescription} onChange={handleNewDescription} />
+                <input type="file" accept='image/*' onChange={handleImageChange} />
+                <button onClick={() => { newPost() }}>New Post</button>
+              </Popup>
             </div>
           </div>
         </div>
@@ -206,7 +274,7 @@ const UserProfile = () => {
               src={`data:image/png;base64,${Buffer.from(post.image.data.data).toString('base64')}`}
               alt={`Post ${post._id}`}
               className="post-image"
-              onClick={() => handlePostClick(post)} // Open modal on image click
+              onClick={() => handlePostClick(post)}
             />
           </div>
         ))}
