@@ -166,7 +166,7 @@ const UserProfile = () => {
     const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
     const fetchData = async () => {
       try {
-        const url = `http://localhost:8000/media/postsByUser?userId=${userId}`;
+        const url = config.API_Base_Url+`/media/postsByUser?userId=${userId}`;
         const response = await fetch(url);
 
         if (!response.ok) {
