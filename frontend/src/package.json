@@ -27,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "prod-start": "serve -s build",
-    "build": " npm install --prefix ./frontend/src && react-scripts build",
+    "build": " npm install && react-scripts build && serve -s build",
     "new-build": " npm install --prefix ./frontend/src && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
