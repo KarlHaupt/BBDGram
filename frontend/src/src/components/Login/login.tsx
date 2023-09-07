@@ -19,37 +19,31 @@ function Login() {
     }
   } 
 
-  const saveUser = async (data: { username: string, email: string}) => {
+    const saveUser = async (data: { username: string, email: string}) => {
     try {
-      console.log(`${data.username} ${data.email}`)
+        const url = 'https://ztd82gntsi.eu-west-1.awsapprunner.com/user/save';
+        const userObj = {
+            username: data.username,
+            email: data.email
+        };
+        const user = new ApiResponse();
 
-    const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/user/save`;
-    const user = new ApiResponse();
+        const response:any = await user.saveUser(url, userObj);
 
-    const userObj = {
-      username: data.username,
-      email: data.email
-    }
-      console.log(`Fuck`)
-
-      user.saveUser(url, userObj).then((response: any)=>{
         console.log(response);
-        if(response.success === true){
-          const data = response.user;
-          console.log(data)
-          localStorage.setItem('username', data.username);
-          localStorage.setItem('email', data.email);
-        }
-        
-      }).catch((err: any) => {
-        console.log('ERROR:::: ', err);
-      })
 
-    } catch(err: any) {
-      console.log('ERROR: ' + err)
+        if (response.success === true) {
+            const userData = response.user;
+            console.log(userData);
+            localStorage.setItem('username', userData.username);
+            localStorage.setItem('email', userData.email);
+        } else {
+            console.log('Save user operation failed.');
+        }
+    } catch (err) {
+        console.log('ERROR:', err);
     }
   }
-
 
   const onFailure = () => {
     console.log('login failed');
