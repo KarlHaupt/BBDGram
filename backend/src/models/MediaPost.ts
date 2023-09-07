@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export interface IMedia {
   description: string;
@@ -8,6 +8,8 @@ export interface IMedia {
   };
   tag: string;
   user: Schema.Types.ObjectId;
+  dislikes: mongoose.Schema.Types.ObjectId[];
+  likes: mongoose.Schema.Types.ObjectId[];
 }
 
 const mediaSchema: Schema = new Schema({
@@ -37,6 +39,12 @@ const mediaSchema: Schema = new Schema({
     ref: "User",
     required: true,
   },
+  likes: {
+    type: [mongoose.Schema.Types.ObjectId],
+  },
+  dislikes: {
+    type: [mongoose.Schema.Types.ObjectId],
+  }
 });
 
 export default mongoose.model<IMedia>("MediaPost", mediaSchema);

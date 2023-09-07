@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Header/Header';
 import '../UserProfile/UserProfile.css';
-import { Posts, Post } from '../../models/posts';
 import { ApiResponse } from '../../providers/userProvider';
-import config from '../../config.json'
 import { Buffer } from 'buffer';
 import Popup from 'reactjs-popup'
-
+import { Post } from '../../models/posts';
 
 const UserProfile = () => {
   const [description, setDescription] = useState("Bio description goes here. Something about me.");
   const [user, setUser] = useState("username");
-  const [userPosts, setUserPosts] = useState<Posts[]>([])
-  const [selectedPost, setSelectedPost] = useState<Posts | null>(null);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [image, setImage] = useState('');
+  const [caption, setCaption] = useState("caption");
   const [selectedImage, setSelectedImage] = useState<File>()
   const [newDescription, setNewDescription] = useState('')
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null); // State to track selected post for modal
 
   const handleEditDescription = () => {
     const newDescription = prompt('Enter new description:');
@@ -30,10 +30,6 @@ const UserProfile = () => {
     }
   }
 
-  const handlePostClick = (post: Posts) => {
-    setSelectedPost(post);
-  };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -43,17 +39,13 @@ const UserProfile = () => {
     }
   }
 
-  const handleNewPostBtnClick = (post: Posts) => {
-
-  }
-
   useEffect(() => {
     getData();
 
   }, [])
 
   const getData = async () => {
-    const url = `${config.API_Base_Url}/media/posts`;
+    const url = `http://localhost:8000/media/posts`;
     const mediaPosts = new ApiResponse();
 
     mediaPosts.getData(url).then((response: any) => {
@@ -74,7 +66,7 @@ const UserProfile = () => {
   }
 
   const newPost = () => {
-    const url = `${config.API_Base_Url}/media/posts`;
+    const url = `http://localhost:8000/media/posts`;
     const mediaPosts = new ApiResponse();
 
     const email = localStorage.getItem('user');
@@ -91,7 +83,171 @@ const UserProfile = () => {
 
   }
 
+  const handlePostClick = (post: Post) => {
+    setSelectedPost(post);
+  };
 
+  const countLikes = (post: any)=> {
+    return post.likes.length;
+  };
+
+  
+  const countDislikes = (post:any) => {
+    return post.dislikes.length;
+  };
+
+  const updateLikes = (postId: string, userId: string) => {
+    // Use map to create a new array with updated likes for the selected post
+    const updatedUserPosts = userPosts.map((post) => {
+      if (post._id === postId) {
+        return { ...post, likes: [...post.likes, userId] };
+      }
+      return post;
+    });
+    return updatedUserPosts;
+  };
+
+  const updateDislikes = (postId: string, userId: string) => {
+    const updatedUserPosts = userPosts.map((post) => {
+      if (post._id === postId) {
+        return { ...post, dislikes: [...post.dislikes, userId] };
+      }
+      return post;
+    });
+    return updatedUserPosts;
+  };
+  
+
+  const handleLike = async () => {
+    try {
+      const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
+      const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
+  
+      const url = `http://localhost:8000/media/posts/like`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId: selectedPost?._id,
+          userId: '64f7818400e7dae66db86404',
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to like the post');
+      }
+  
+      const data = await response.json();
+  
+      if (data.success === true) {
+        if (selectedPost) {
+          let updatedLikes = [...selectedPost.likes];
+          let updatedDislikes = [...selectedPost.dislikes];
+  
+          if (isLiked) {
+            // Remove like
+            updatedLikes = updatedLikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+          } else if (isDisliked) {
+            // Remove dislike and add like
+            updatedDislikes = updatedDislikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+            updatedLikes.push('64f7818400e7dae66db86404');
+          } else {
+            // Add like
+            updatedLikes.push('64f7818400e7dae66db86404');
+          }
+  
+          setSelectedPost((prevSelectedPost) => ({
+            ...prevSelectedPost!,
+            likes: updatedLikes,
+            dislikes: updatedDislikes,
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error liking the post:', error);
+    }
+  };
+  
+  const handleDislike = async () => {
+    try {
+      const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
+      const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
+  
+      const url = `${process.env.API_Base_Url}/media/posts/dislike`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId: selectedPost?._id,
+          userId: '64f7818400e7dae66db86404',
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to dislike the post');
+      }
+  
+      const data = await response.json();
+  
+      if (data.success === true) {
+        if (selectedPost) {
+          let updatedLikes = [...selectedPost.likes];
+          let updatedDislikes = [...selectedPost.dislikes];
+  
+          if (isDisliked) {
+            // Remove dislike
+            updatedDislikes = updatedDislikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+          } else if (isLiked) {
+            // Remove like and add dislike
+            updatedLikes = updatedLikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+            updatedDislikes.push('64f7818400e7dae66db86404');
+          } else {
+            // Add dislike
+            updatedDislikes.push('64f7818400e7dae66db86404');
+          }
+  
+          setSelectedPost((prevSelectedPost) => ({
+            ...prevSelectedPost!,
+            likes: updatedLikes,
+            dislikes: updatedDislikes,
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error disliking the post:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
+    const fetchData = async () => {
+      try {
+        const url = process.env.API_Base_Url+`/media/postsByUser?userId=${userId}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        if (data.success === true) {
+          const mediaPosts = data.mediaPosts;
+          setUserPosts(mediaPosts);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -99,7 +255,7 @@ const UserProfile = () => {
       <div className="user-profile">
         <div className="profile-header">
           <img
-            src={'../../images/sample-profile.jpg'}
+            src={image}
             alt="Profile"
             className="profile-picture" />
           <div className="profile-details">
@@ -131,21 +287,20 @@ const UserProfile = () => {
           </div>
         ))}
       </div>
-
       {selectedPost && (
-        <div className="modal">
-          <div className="modal-content">
-            <img src={`data:image/png;base64,${Buffer.from(selectedPost.image.data.data).toString('base64')}`} alt={`Post ${selectedPost._id}`} className="modal-image" />
-            <div className="modal-details">
-              <p>Likes: {selectedPost.likes}</p>
-              <p>Dislikes: {selectedPost.dislikes}</p>
-              <p>{selectedPost.caption}</p>
-            </div>
-            <button className="modal-close" onClick={() => setSelectedPost(null)}>Close</button>
-          </div>
+    <div className="modal">
+      <div className="modal-content">
+        <img src={`data:image/png;base64,${Buffer.from(selectedPost.image.data.data).toString('base64')}`} alt={`Post ${selectedPost._id}`} className="modal-image" />
+        <div className="modal-details">
+          <p>{selectedPost.description}</p>
+          <p>Likes: {countLikes(selectedPost)}</p><span><button className="like-button" onClick={handleLike}>Like</button></span>
+          <p>Dislikes: {countDislikes(selectedPost)}</p><span><button className="dislike-button" onClick={handleDislike}>Dislike</button></span>
+          <p>{selectedPost.description}</p>
         </div>
-      )}
-
+        <button className="modal-close" onClick={() => setSelectedPost(null)}>Close</button>
+      </div>
+    </div>
+  )}
     </div>
   );
 };

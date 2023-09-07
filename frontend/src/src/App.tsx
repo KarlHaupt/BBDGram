@@ -10,7 +10,7 @@ import Login from './components/Login/login';
 import { gapi } from 'gapi-script';
 import { useEffect } from 'react';
 
-const client_id = '918905675795-8v17u3i912kgqq765k2gk760kc49feba.apps.googleusercontent.com'
+const client_id = '639134156863-t757kboucq6bvm8pp6sivl59tth2qm73.apps.googleusercontent.com'
 
 
 function App() {
