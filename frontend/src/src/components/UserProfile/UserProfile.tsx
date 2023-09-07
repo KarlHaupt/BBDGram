@@ -45,15 +45,22 @@ const UserProfile = () => {
     });
     return updatedUserPosts;
   };
+
+  const updateDislikes = (postId: string, userId: string) => {
+    const updatedUserPosts = userPosts.map((post) => {
+      if (post._id === postId) {
+        return { ...post, dislikes: [...post.dislikes, userId] };
+      }
+      return post;
+    });
+    return updatedUserPosts;
+  };
   
 
   const handleLike = async () => {
     try {
-      // Check if the user has already liked this post (but use actual user id)
-      if (selectedPost?.likes.includes('64f7818400e7dae66db86404')) {
-        console.log('You have already liked this post.');
-        return;
-      }
+      const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
+      const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
       const url = `${config.API_Base_Url}/media/posts/like`;
       const response = await fetch(url, {
@@ -62,8 +69,8 @@ const UserProfile = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          postId: selectedPost?._id, 
-          userId: '64f7818400e7dae66db86404', // User's ID (hardcoded for now)
+          postId: selectedPost?._id,
+          userId: '64f7818400e7dae66db86404',
         }),
       });
   
@@ -72,31 +79,94 @@ const UserProfile = () => {
       }
   
       const data = await response.json();
-      // If liking the post was successful, update the state
+  
       if (data.success === true) {
         if (selectedPost) {
-          const updatedUserPosts = updateLikes(selectedPost._id, '64f7818400e7dae66db86404');
-          setUserPosts(updatedUserPosts);
+          let updatedLikes = [...selectedPost.likes];
+          let updatedDislikes = [...selectedPost.dislikes];
+  
+          if (isLiked) {
+            // Remove like
+            updatedLikes = updatedLikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+          } else if (isDisliked) {
+            // Remove dislike and add like
+            updatedDislikes = updatedDislikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+            updatedLikes.push('64f7818400e7dae66db86404');
+          } else {
+            // Add like
+            updatedLikes.push('64f7818400e7dae66db86404');
+          }
+  
+          setSelectedPost((prevSelectedPost) => ({
+            ...prevSelectedPost!,
+            likes: updatedLikes,
+            dislikes: updatedDislikes,
+          }));
         }
-
-        setSelectedPost((prevSelectedPost) => ({
-          ...prevSelectedPost!,
-          likes: [...prevSelectedPost!.likes, '64f7818400e7dae66db86404'],
-        }));
       }
     } catch (error) {
       console.error('Error liking the post:', error);
     }
   };
-  const handleDislike = () => {
-    
+  
+  const handleDislike = async () => {
+    try {
+      const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
+      const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
+  
+      const url = `${config.API_Base_Url}/media/posts/dislike`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postId: selectedPost?._id,
+          userId: '64f7818400e7dae66db86404',
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to dislike the post');
+      }
+  
+      const data = await response.json();
+  
+      if (data.success === true) {
+        if (selectedPost) {
+          let updatedLikes = [...selectedPost.likes];
+          let updatedDislikes = [...selectedPost.dislikes];
+  
+          if (isDisliked) {
+            // Remove dislike
+            updatedDislikes = updatedDislikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+          } else if (isLiked) {
+            // Remove like and add dislike
+            updatedLikes = updatedLikes.filter(userId => userId !== '64f7818400e7dae66db86404');
+            updatedDislikes.push('64f7818400e7dae66db86404');
+          } else {
+            // Add dislike
+            updatedDislikes.push('64f7818400e7dae66db86404');
+          }
+  
+          setSelectedPost((prevSelectedPost) => ({
+            ...prevSelectedPost!,
+            likes: updatedLikes,
+            dislikes: updatedDislikes,
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error disliking the post:', error);
+    }
   };
+
 
   useEffect(() => {
     const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
     const fetchData = async () => {
       try {
-        const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/postsByUser?userId=${userId}`;
+        const url = config.API_Base_Url+`/media/postsByUser?userId=${userId}`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -155,8 +225,9 @@ const UserProfile = () => {
       <div className="modal-content">
         <img src={`data:image/png;base64,${Buffer.from(selectedPost.image.data.data).toString('base64')}`} alt={`Post ${selectedPost._id}`} className="modal-image" />
         <div className="modal-details">
+          <p>{selectedPost.description}</p>
           <p>Likes: {countLikes(selectedPost)}</p><span><button className="like-button" onClick={handleLike}>Like</button></span>
-          <p>Dislikes: {countDislikes(selectedPost)}</p>
+          <p>Dislikes: {countDislikes(selectedPost)}</p><span><button className="dislike-button" onClick={handleDislike}>Dislike</button></span>
           
         </div>
         <button className="modal-close" onClick={() => setSelectedPost(null)}>Close</button>
