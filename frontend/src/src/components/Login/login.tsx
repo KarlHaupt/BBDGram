@@ -3,7 +3,7 @@ import jwt from 'jwt-decode';
 import './login.css'
 import { ApiResponse } from '../../providers/userProvider';
 
-const client_id=`${process.env.GOOGLE_CLIENT_ID}`
+const client_id: string =process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID :''
 
 function Login() {
 
