@@ -2,10 +2,42 @@ import { NextFunction, Request, Response } from "express";
 import User, { IUser } from "../models/User";
 import { ErrorHandler } from "../utils/ErrorHandler";
 
+export const getUserByEmail = async (req: Request, res: Response) => {
+  if (!req.query.email) {
+    res.status(400).json({
+      success: false,
+      message: "Please provide an email"
+    });
+  }
+
+  const response = await User.findOne({ email: req.query.email });
+
+  if (response) {
+    res.status(200).json({
+      success: true,
+      userId: response._id
+    })
+  } else {
+    res.status(404).json({
+      success: false,
+      message: "User not found"
+    })
+  }
+};
+
 export const saveUser = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.body.username || !req.body.email) {
         return next(new ErrorHandler('Username and email not found', 400));
-      }
+    }
+
+    const result = await User.findOne({ email: req.body.email });
+
+    if(result != null) {
+      return res.json({
+        success: true,
+        user: result
+      });
+    }
 
     const user: IUser = {
         username: req.body.username,
