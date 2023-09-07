@@ -32,6 +32,7 @@ export interface Post {
     };
     likes: string[];
     dislikes: string[];
+    description: string;
     tag: string;
     user: string;
     _v: number;
