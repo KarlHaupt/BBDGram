@@ -20,11 +20,15 @@ export class ApiResponse<T> {
     }
 
     
-    async postData(apiUrl: string, requestData: FormData) {
+    async postData(apiUrl: string, requestData: object) {
         try {
             const res = await fetch(apiUrl, {
                 method: 'POST',
-                body: requestData
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Permissions-Policy': 'ch-ua-form-factor'
+                },
+                body: JSON.stringify(requestData)
             });
 
             if (!res.ok) {
