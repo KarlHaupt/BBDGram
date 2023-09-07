@@ -1,12 +1,6 @@
 export interface Posts {
-    _id: number,
-    image: {
-        contentType:string,
-        data:{
-            type:string,
-            data:[]
-        }
-    },
+    id: number,
+    imageUrl: string,
     likes: number,
     dislikes: number,
     caption: string,

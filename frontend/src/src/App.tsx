@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from './pages/Home';
 import Header from "./components/Header/Header";
 import UserProfile from "./components/UserProfile/UserProfile";
-import PopupElement from './components/popup/popup';
 import Login from './components/Login/login';
 import { gapi } from 'gapi-script';
 import { useEffect } from 'react';
@@ -32,7 +31,6 @@ function App() {
           {/* Entry Point to the App */}
           {/* Normally the navigation goes here, I can handle if you guys need me to */}
             <Route path = "/home" Component={Home} />
-            <Route path = "/popup" Component={PopupElement} />
             <Route path = "/header" Component={Header} />
             <Route path = "/profile" Component={UserProfile} />
             <Route path="/" Component={Login}/>

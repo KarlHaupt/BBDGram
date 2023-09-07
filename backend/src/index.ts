@@ -17,7 +17,7 @@ const cors = require('cors');
 //Connecting to database
 connectDatabase();
 
-app.use(bodyParser.json({limit:'50mb'}));
+app.use(bodyParser.json());
 app.use(cors());
 
 // CONTROLLERS

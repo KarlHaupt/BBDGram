@@ -56,7 +56,7 @@
 
 /* posts section*/
 
-.user-posts {
+  .user-posts {
     display: flex;
     flex-wrap: wrap;
     margin-left: 1.25rem;
@@ -174,9 +174,4 @@
   
   .modal-close:hover {
     background-color: #313131;
-  }
-
-  .popup-content{
-    background-color: yellow;
-    margin: 5px;
   }

@@ -12,8 +12,7 @@ function writeConfig(){
   } else {
     const param = JSON.stringify({
       API_Base_Url:process.env.API_Base_Url,
-      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-      PORT: process.env.PORT
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
     });
     fs.writeFile(path, param, function (err) {
       if (err) throw err;
