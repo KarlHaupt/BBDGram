@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "front-install": "npm install && npm install --prefix ./frontend/src && node config.js && cd ./frontend/src && npm run build && npm run prod-start",
+    "front-install": "npm install && npm install --prefix ./frontend/src && node config.js",
     "front-start": "cd ./frontend/src && npm run build && npm run prod-start",
     "server-install": "cd backend/src && npm install && mkdir uploads",
     "server-start": "cd backend/src && npm run start"
