@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Header/Header';
 import '../UserProfile/UserProfile.css';
 import { ApiResponse } from '../../providers/userProvider';
-import config from '../../config.json';
 import { Buffer } from 'buffer';
 import { Post } from '../../models/posts';
 
@@ -62,7 +61,7 @@ const UserProfile = () => {
       const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
       const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
-      const url = `${config.API_Base_Url}/media/posts/like`;
+      const url = `${process.env.API_Base_Url}/media/posts/like`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -114,7 +113,7 @@ const UserProfile = () => {
       const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
       const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
-      const url = `${config.API_Base_Url}/media/posts/dislike`;
+      const url = `${process.env.API_Base_Url}/media/posts/dislike`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -166,7 +165,7 @@ const UserProfile = () => {
     const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
     const fetchData = async () => {
       try {
-        const url = config.API_Base_Url+`/media/postsByUser?userId=${userId}`;
+        const url = process.env.API_Base_Url+`/media/postsByUser?userId=${userId}`;
         const response = await fetch(url);
 
         if (!response.ok) {
