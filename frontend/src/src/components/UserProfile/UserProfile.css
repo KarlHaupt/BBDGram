@@ -130,6 +130,20 @@
   text-align: center;
   margin-bottom: 0.625rem;
 }
+
+.like-button {
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem; /* Add spacing between the like count and button */
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.like-button:hover {
+  background-color: #0056b3; /* Change button color on hover */
+}
   .modal-close {
     background-color: #101310;
     color: white;
