@@ -12,6 +12,8 @@ function Login() {
     const responsePayload: any = jwt(response.credential + '');
     localStorage.setItem('token', response.credential + '');
     await saveUser({ username: responsePayload.name, email: responsePayload.email })
+    localStorage.setItem('user', responsePayload.name);
+    const email = localStorage.setItem('email', responsePayload.email);
     window.location.href = "http://localhost:3000/home"
   } 
 
@@ -26,7 +28,7 @@ function Login() {
 
     user.saveUser(url, userObj).then((response: any)=>{
       
-      if(response.success === true){
+      if(response){
         const data = response.user;
         console.log(data)
         localStorage.setItem('username', response.username);

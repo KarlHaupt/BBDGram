@@ -29,7 +29,7 @@ export const postMedia = async (
     missing += "Tag ";
   }
   if (!req.body.user) {
-    missing += "User Email ";
+    missing += "User ID ";
   }
   if (!req.file?.path) {
     missing += "File ";
@@ -40,7 +40,8 @@ export const postMedia = async (
       message: missing,
     });
   } else {
-    const img = readFileSync(req.file?.path!);
+    console.log(req.file);
+    const img = readFileSync(req.file?.path!); 
     const encoded_img = img.toString("base64");
     
     const final_img = {
