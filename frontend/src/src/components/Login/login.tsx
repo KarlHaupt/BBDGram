@@ -21,6 +21,7 @@ function Login() {
 
   const saveUser = async (data: { username: string, email: string}) => {
     try {
+      console.log(`${data.username} ${data.email}`)
 
     const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/user/save`;
     const user = new ApiResponse();
@@ -29,6 +30,7 @@ function Login() {
       username: data.username,
       email: data.email
     }
+      console.log(`Fuck`)
 
       user.saveUser(url, userObj).then((response: any)=>{
         console.log(response);
