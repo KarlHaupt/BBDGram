@@ -30,7 +30,7 @@ const UserProfile = () => {
     const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
     const fetchData = async () => {
       try {
-        const url = `${process.env.API_Base_Url}/media/postsByUser?userId=${userId}`;
+        const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/postsByUser?userId=${userId}`;
         const response = await fetch(url);
 
         if (!response.ok) {
