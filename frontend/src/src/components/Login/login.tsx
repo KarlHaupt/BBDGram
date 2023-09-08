@@ -3,7 +3,7 @@ import jwt from 'jwt-decode';
 import './login.css'
 import { ApiResponse } from '../../providers/userProvider';
 
-const client_id: string = '639134156863-t757kboucq6bvm8pp6sivl59tth2qm73.apps.googleusercontent.com';
+const client_id: string ='639134156863-t757kboucq6bvm8pp6sivl59tth2qm73.apps.googleusercontent.com'
 
 function Login() {
 

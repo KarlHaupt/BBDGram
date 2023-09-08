@@ -1,1 +1,4 @@
-{"API_Base_Url":"http://localhost:8000","GOOGLE_CLIENT_ID":"918905675795-8v17u3i912kgqq765k2gk760kc49feba.apps.googleusercontent.com"}
+{
+    "API_Base_Url":"http://localhost:8000",
+    "GOOGLE_CLIENT_ID": "1065034825499-nbsagsvu94r7ic9gd11itm0kqrfrs2cq.apps.googleusercontent.com"
+}

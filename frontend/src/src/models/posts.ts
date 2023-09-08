@@ -30,9 +30,9 @@ export interface Post {
         data: number[];
       };
     };
-    likes: number;
-    dislikes: number;
-    caption: string;
+    likes: string[];
+    dislikes: string[];
+    description: string;
     tag: string;
     user: string;
     _v: number;
