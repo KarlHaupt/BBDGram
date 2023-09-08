@@ -42,7 +42,7 @@ const Home = () => {
         }));
       }
   
-      const url = `http://localhost:8000/media/posts/like`;
+      const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/posts/like`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -90,7 +90,7 @@ const Home = () => {
         }));
       }
 
-      const url = `http://localhost:8000/media/posts/dislike`;
+      const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/posts/dislike`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -113,7 +113,7 @@ const Home = () => {
 
   const getData = async () => {
     try {
-      const url = `localhost:8000/media/posts`;
+      const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/posts`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
