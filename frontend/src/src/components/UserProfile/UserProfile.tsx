@@ -89,27 +89,6 @@ const UserProfile = () => {
     setSelectedPost(post);
   };
 
-  const updateLikes = (postId: string, userId: string) => {
-    // Use map to create a new array with updated likes for the selected post
-    const updatedUserPosts = userPosts.map((post) => {
-      if (post._id === postId) {
-        return { ...post, likes: [...post.likes, userId] };
-      }
-      return post;
-    });
-    return updatedUserPosts;
-  };
-
-  const updateDislikes = (postId: string, userId: string) => {
-    const updatedUserPosts = userPosts.map((post) => {
-      if (post._id === postId) {
-        return { ...post, dislikes: [...post.dislikes, userId] };
-      }
-      return post;
-    });
-    return updatedUserPosts;
-  };
-  
 
   const handleLike = async () => {
     try {
@@ -223,13 +202,9 @@ const UserProfile = () => {
       <Header />
       <section className="user-profile">
         <article className="profile-header">
-          <img
-            src={'../../images/sample-profile.jpg'}
-            alt="Profile"
-            className="profile-picture" />
           <section className="profile-details">
-            <h2 className='username'>{user}</h2> {/* fetched from endpoint */}
-            <p className='description'>{description}</p> {/* fetched from endpoint */}
+            <h2 className='username'>{localStorage.getItem('email')}</h2>
+            <p className='description'>{description}</p> 
             <div className='settings'>
               <button className='buttons' onClick={handleEditDescription}>Edit Description</button>
 

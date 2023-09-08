@@ -42,7 +42,7 @@ const Home = () => {
         }));
       }
   
-      const url = `${config.API_Base_Url}/media/posts/like`;
+      const url = `http://localhost:8000/media/posts/like`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -90,7 +90,7 @@ const Home = () => {
         }));
       }
 
-      const url = `${config.API_Base_Url}/media/posts/dislike`;
+      const url = `http://localhost:8000/media/posts/dislike`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -113,7 +113,7 @@ const Home = () => {
 
   const getData = async () => {
     try {
-      const url = config.API_Base_Url+`/media/posts`;
+      const url = `localhost:8000/media/posts`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
