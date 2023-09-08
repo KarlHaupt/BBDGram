@@ -27,8 +27,8 @@ const PicturePopup = (props: {
             <img src={`data:image/png;base64,${Buffer.from(selectedPost.image.data.data).toString('base64')}`} alt={`Post ${selectedPost._id}`} className="modal-image" />
             <div className="modal-details">
                 <p>{selectedPost.description}</p>
-                <p>Likes: {countLikes(selectedPost)}</p><span><button className="like-button" onClick={props.handleLike}>Like</button></span>
-                <p>Dislikes: {countDislikes(selectedPost)}</p><span><button className="dislike-button" onClick={props.handleDislike}>Dislike</button></span>
+                <p><span><button className="like-button" onClick={props.handleLike}>Like</button></span> {countLikes(selectedPost)}</p>
+                <p><span><button className="dislike-button" onClick={props.handleDislike}>Dislike</button></span> {countDislikes(selectedPost)}</p>
             </div>
             <button className="modal-close" onClick={() => setSelectedPost(null)}>Close</button>
           </div>

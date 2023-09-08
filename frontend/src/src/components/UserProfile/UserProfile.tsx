@@ -31,6 +31,7 @@ const UserProfile = () => {
     }
   }
 
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -223,7 +224,7 @@ const UserProfile = () => {
       <section className="user-profile">
         <article className="profile-header">
           <img
-            src={image}
+            src={'../../images/sample-profile.jpg'}
             alt="Profile"
             className="profile-picture" />
           <section className="profile-details">
@@ -231,14 +232,19 @@ const UserProfile = () => {
             <p className='description'>{description}</p> {/* fetched from endpoint */}
             <div className='settings'>
               <button className='buttons' onClick={handleEditDescription}>Edit Description</button>
-              <button className='buttons'>New Post</button>
+
+              <Popup trigger=
+                {<button className='buttons'>New Post</button>}
+                position="right center">
+                <input type='text' placeholder='description' value={newDescription} onChange={handleNewDescription} />
+                <input type="file" accept='image/*' onChange={handleImageChange} />
+                <button onClick={() => { newPost() }}>New Post</button>
+              </Popup>
             </div>
           </section>
         </article>
-      </section>
-      
-
-
+        </section>
+        
       <section className="gallery-container">
   <section className="gallery">
     {userPosts.map((post) => (
