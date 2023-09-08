@@ -31,6 +31,7 @@ const UserProfile = () => {
     }
   }
 
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -41,30 +42,30 @@ const UserProfile = () => {
   }
 
   useEffect(() => {
-    getData();
+    const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
+    const fetchData = async () => {
+      try {
+        const url = `http://localhost:8000/media/postsByUser?userId=${userId}`;
+        const response = await fetch(url);
 
-  }, [])
-
-  const getData = async () => {
-    const url = `http://localhost:8000/media/posts`;
-    const mediaPosts = new ApiResponse();
-
-    mediaPosts.getData(url).then((response: any) => {
-
-      if (response.success === true) {
-        const data = response.mediaPosts;
-        setUserPosts(data)
-        console.log(data)
-
-        for (const dt of data) {
-          setDescription(dt.description);
-          setUser(dt.user)
-          localStorage.setItem('user', dt.user);
-          localStorage.setItem('tag', dt.tag);
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
         }
+
+        const data = await response.json();
+        console.log(data);
+
+        if (data.success === true) {
+          const mediaPosts = data.mediaPosts;
+          setUserPosts(mediaPosts);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-    })
-  }
+    };
+
+    fetchData();
+  }, []);
 
   const newPost = () => {
     const url = `http://localhost:8000/media/posts`;
@@ -167,7 +168,7 @@ const UserProfile = () => {
       const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
       const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
-      const url = `${process.env.API_Base_Url}/media/posts/dislike`;
+      const url = `http://localhost:8000/media/posts/dislike`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -215,46 +216,23 @@ const UserProfile = () => {
   };
 
 
-  useEffect(() => {
-    const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
-    const fetchData = async () => {
-      try {
-        const url = process.env.API_Base_Url+`/media/postsByUser?userId=${userId}`;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-
-        const data = await response.json();
-        console.log(data);
-
-        if (data.success === true) {
-          const mediaPosts = data.mediaPosts;
-          setUserPosts(mediaPosts);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+ 
 
   return (
-    <div>
+    <>
       <Header />
-      <div className="user-profile">
-        <div className="profile-header">
+      <section className="user-profile">
+        <article className="profile-header">
           <img
-            src={image}
+            src={'../../images/sample-profile.jpg'}
             alt="Profile"
             className="profile-picture" />
-          <div className="profile-details">
+          <section className="profile-details">
             <h2 className='username'>{user}</h2> {/* fetched from endpoint */}
             <p className='description'>{description}</p> {/* fetched from endpoint */}
             <div className='settings'>
               <button className='buttons' onClick={handleEditDescription}>Edit Description</button>
+
               <Popup trigger=
                 {<button className='buttons'>New Post</button>}
                 position="right center">
@@ -263,29 +241,32 @@ const UserProfile = () => {
                 <button onClick={() => { newPost() }}>New Post</button>
               </Popup>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="user-posts">
-        {userPosts.map((post) => (
-          <div key={post._id} className="post">
-            <img
-              src={`data:image/png;base64,${Buffer.from(post.image.data.data).toString('base64')}`}
-              alt={`Post ${post._id}`}
-              className="post-image"
-              onClick={() => handlePostClick(post)}
-            />
-          </div>
-        ))}
-      </div>
-      <PicturePopup 
-        selectedPost={selectedPost}
-        setSelectedPost={setSelectedPost}
-        handleLike={handleLike}
-        handleDislike={handleDislike}
-      />
-    </div>
+          </section>
+        </article>
+        </section>
+        
+      <section className="gallery-container">
+  <section className="gallery">
+    {userPosts.map((post) => (
+      <article className="image-frame" key={post._id}>
+        <img
+          src={`data:image/png;base64,${Buffer.from(post.image.data.data).toString('base64')}`}
+          alt={`Post ${post._id}`}
+          className="image"
+          onClick={() => handlePostClick(post)}
+        />
+        <h5>{post.description}</h5>
+      </article>
+    ))}
+  </section>
+  <PicturePopup
+    selectedPost={selectedPost}
+    setSelectedPost={setSelectedPost}
+    handleLike={handleLike}
+    handleDislike={handleDislike}
+  />
+</section>
+      </>
   );
 };
 
