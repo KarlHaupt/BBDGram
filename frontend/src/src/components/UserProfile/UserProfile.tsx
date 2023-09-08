@@ -45,7 +45,7 @@ const UserProfile = () => {
     const userId = '64f7818400e7dae66db86404'; // Replace with the actual user's ID
     const fetchData = async () => {
       try {
-        const url = `http://localhost:8000/media/postsByUser?userId=${userId}`;
+        const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/postsByUser?userId=${userId}`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -68,7 +68,7 @@ const UserProfile = () => {
   }, []);
 
   const newPost = () => {
-    const url = `http://localhost:8000/media/posts`;
+    const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/posts`;
     const mediaPosts = new ApiResponse();
 
     const email = localStorage.getItem('user');
@@ -95,7 +95,7 @@ const UserProfile = () => {
       const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
       const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
-      const url = `http://localhost:8000/media/posts/like`;
+      const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/posts/like`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -147,7 +147,7 @@ const UserProfile = () => {
       const isLiked = selectedPost?.likes.includes('64f7818400e7dae66db86404');
       const isDisliked = selectedPost?.dislikes.includes('64f7818400e7dae66db86404');
   
-      const url = `http://localhost:8000/media/posts/dislike`;
+      const url = `https://ztd82gntsi.eu-west-1.awsapprunner.com/media/posts/dislike`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
